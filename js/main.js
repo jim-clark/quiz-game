@@ -38,6 +38,7 @@ let correctScore;
 const questionEl = document.getElementById('question');
 const answersEl = document.getElementById('answers');
 const submitBtn = document.getElementById('submit');
+const msgEl = document.getElementById('msg');
 
 /*----- event listeners -----*/
 answersEl.addEventListener('click', handleAnswer);
@@ -94,9 +95,10 @@ function render() {
   if (correctScore === null) {
     // Answering a question
     renderQuestion();
+    msgEl.innerText = "Click Your Answer and Submit!";
   } else {
     // Rendering the score
-
+    msgEl.innerText = `You Scored ${correctScore} Out Of ${questions.length}`;
   }
   questionEl.style.visibility = correctScore === null ? 'visible' : 'hidden';
   answersEl.style.visibility = correctScore === null ? 'visible' : 'hidden';
