@@ -39,7 +39,7 @@ const questionEl = document.getElementById('question');
 const answersEl = document.getElementById('answers');
 
 /*----- event listeners -----*/
-
+answersEl.addEventListener('click', handleAnswer);
 
 /*----- functions -----*/
 init();  // Start the Quiz
@@ -67,6 +67,14 @@ function init() {
   render();
 }
 
+// In response to user interaction, update all impacted state,
+// then call render()
+function handleAnswer(evt) {
+  const answerIdx = parseInt(evt.target.id);
+  questions[curQuestionIdx].playerAnswerIdx = answerIdx;
+  render();
+}
+
 function render() {
   if (correctScore === null) {
     // Answering a question
@@ -83,7 +91,12 @@ function renderQuestion() {
   // "Build" the html string using the answers array
   let html = '';
   question.answers.forEach((answer, idx) => {
-    html += `<article>(${idx + 1}) ${answer}</article>`;
+    html += `<article id="${idx}">(${idx + 1}) ${answer}</article>`;
   });
   answersEl.innerHTML = html;
+  const answerEls = document.querySelectorAll('#answers > article');
+  answerEls.forEach((answerEl, idx) => {
+    console.log(idx, question.playerAnswerIdx)
+    answerEl.style.backgroundColor = idx === question.playerAnswerIdx ? 'yellow' : 'white';
+  });
 }
