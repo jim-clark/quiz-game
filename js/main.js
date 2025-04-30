@@ -53,7 +53,8 @@ function init() {
     {
       question: 'Text of question 1?',
       answers: ['Answer 1', 'Answer 2', 'Answer 3', 'Answer 4'],
-      correctAnswerIdx: 0, // index of 'Answer 1'
+      correctAnswerIdx: 0, // index of 'Answer 1',
+      correctAnswerText: 'Answer 1',
       playerAnswerIdx: null // this is the property you update when they
       // click an answer when this is the current question
     },
@@ -61,10 +62,18 @@ function init() {
       question: 'Text of question 2?',
       answers: ['Another Answer 1', 'Another Answer 2', 'Another Answer 3', 'Another Answer 4'],
       correctAnswerIdx: 1, // index of 'Another Answer 2'
+      correctAnswerText: 'Another Answer 2',
       playerAnswerIdx: null // this is the property you update when they
       // click an answer when this is the current question
     },
   ];
+  randomizeQuestionsAndAnswers();
+  curQuestionIdx = 0;
+  correctScore = null;
+  render();
+}
+
+function randomizeQuestionsAndAnswers() {
   // shuffle the questions 
   const tempQuestions = [];
   while (questions.length) {
@@ -73,9 +82,16 @@ function init() {
     tempQuestions.push(rndQuestion);
   }
   questions = tempQuestions;
-  curQuestionIdx = 0;
-  correctScore = null;
-  render();
+  questions.forEach((question) => {
+    const tempAnswers = [];
+    while (question.answers.length) {
+      const rndIdx = Math.floor(Math.random() * question.answers.length);
+      const rndAnswer = question.answers.splice(rndIdx, 1)[0];
+      tempAnswers.push(rndAnswer);
+    }
+    question.answers = tempAnswers;
+    question.correctAnswerIdx = question.answers.indexOf(question.correctAnswerText);
+  });
 }
 
 // In response to user interaction, update all impacted state,
