@@ -37,9 +37,11 @@ let correctScore;
 /*----- cached elements  -----*/
 const questionEl = document.getElementById('question');
 const answersEl = document.getElementById('answers');
+const submitBtn = document.getElementById('submit');
 
 /*----- event listeners -----*/
 answersEl.addEventListener('click', handleAnswer);
+submitBtn.addEventListener('click', handleSubmit);
 
 /*----- functions -----*/
 init();  // Start the Quiz
@@ -75,6 +77,19 @@ function handleAnswer(evt) {
   render();
 }
 
+function handleSubmit() {
+  curQuestionIdx++;
+  if (curQuestionIdx === questions.length) {
+    // All questions have been answered
+    // therefore compute the correctScore
+    correctScore = 0;
+    questions.forEach((question) => {
+      if (question.correctAnswerIdx === question.playerAnswerIdx) correctScore++;
+    });
+  }
+  render();
+}
+
 function render() {
   if (correctScore === null) {
     // Answering a question
@@ -83,6 +98,9 @@ function render() {
     // Rendering the score
 
   }
+  questionEl.style.visibility = correctScore === null ? 'visible' : 'hidden';
+  answersEl.style.visibility = correctScore === null ? 'visible' : 'hidden';
+  submitBtn.style.visibility = correctScore === null ? 'visible' : 'hidden';
 }
 
 function renderQuestion() {
