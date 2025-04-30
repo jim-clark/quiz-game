@@ -65,6 +65,14 @@ function init() {
       // click an answer when this is the current question
     },
   ];
+  // shuffle the questions 
+  const tempQuestions = [];
+  while (questions.length) {
+    const rndIdx = Math.floor(Math.random() * questions.length);
+    const rndQuestion = questions.splice(rndIdx, 1)[0];
+    tempQuestions.push(rndQuestion);
+  }
+  questions = tempQuestions;
   curQuestionIdx = 0;
   correctScore = null;
   render();
